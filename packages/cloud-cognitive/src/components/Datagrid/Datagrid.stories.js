@@ -187,6 +187,7 @@ export const InitialLoad = () => {
     columns,
     data,
     isFetching,
+    DatagridPagination,
   });
 
   return <Datagrid datagridState={{ ...datagridState }} />;

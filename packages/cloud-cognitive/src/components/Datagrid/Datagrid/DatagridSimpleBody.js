@@ -24,9 +24,9 @@ const DatagridSimpleBody = (datagridState) => {
         getTableBodyProps().className
       )}
     >
-      {rows.map((row) => {
+      {rows.map((row, i) => {
         prepareRow(row);
-        return row.RowRenderer({ ...datagridState, row });
+        return <row.RowRenderer key={i} { ...datagridState } row={row} />;
       })}
     </TableBody>
   );

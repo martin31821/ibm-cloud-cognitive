@@ -160,7 +160,7 @@ export const DatagridContent = ({ datagridState }) => {
       {rows?.length > 0 &&
         !isFetching &&
         DatagridPagination &&
-        DatagridPagination(datagridState)}
+        <DatagridPagination {...datagridState} />}
       {CustomizeColumnsModal && (
         <CustomizeColumnsModal instance={datagridState} />
       )}
