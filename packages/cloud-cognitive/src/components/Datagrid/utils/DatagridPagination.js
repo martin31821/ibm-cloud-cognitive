@@ -9,7 +9,7 @@
 import React from 'react';
 import { Pagination } from 'carbon-components-react';
 
-export const DatagridPagination = ({ state, setPageSize, gotoPage, rows }) => {
+export const DatagridPagination = ({ state, setPageSize, gotoPage, totalItemCount, rows }) => {
   const updatePagination = ({ page, pageSize }) => {
     console.log(state);
     setPageSize(pageSize);
@@ -21,7 +21,7 @@ export const DatagridPagination = ({ state, setPageSize, gotoPage, rows }) => {
       page={state.pageIndex + 1} // react-table is zero-based
       pageSize={state.pageSize}
       pageSizes={state.pageSizes || [10, 20, 30, 40, 50]}
-      totalItems={rows.length}
+      totalItems={totalItemCount ?? rows.length}
       onChange={updatePagination}
     />
   );

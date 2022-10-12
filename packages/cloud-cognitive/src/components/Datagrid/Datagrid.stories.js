@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { range, makeData, newPersonWithTwoLines } from './utils/makeData';
 
 import { getStoryTitle } from '../../global/js/utils/story-helper';
@@ -189,6 +189,37 @@ export const InitialLoad = () => {
     isFetching,
     DatagridPagination,
   });
+
+  return <Datagrid datagridState={{ ...datagridState }} />;
+};
+
+export const ServerSidePagination = () => {
+  const columns = React.useMemo(() => defaultHeader, []);
+  const [data, setData] = useState(null);
+
+  const dataMemo = useMemo(() => data?.data ?? [], [data])
+
+  const datagridState = useDatagrid({
+    columns,
+    data: dataMemo,
+    isFetching: data === null,
+    manualPagination: true,
+    pageCount: data?.pageCount ?? -1,
+    totalItemCount: data?.totalItemCount ?? NaN,
+    DatagridPagination,
+  });
+
+  useEffect(() => {
+    setData(null);
+    setTimeout(() => {
+      const total = 50;
+      const data = makeData(total);
+
+      const offset = (datagridState.state.pageIndex) * datagridState.state.pageSize;
+      const len = datagridState.state.pageSize;
+      setData({ data: data.slice(offset, offset + len), pageCount: total / datagridState.state.pageSize, totalItemCount: total, });
+    }, 1000);
+  }, [datagridState.state.pageIndex, datagridState.state.pageSize]);
 
   return <Datagrid datagridState={{ ...datagridState }} />;
 };
